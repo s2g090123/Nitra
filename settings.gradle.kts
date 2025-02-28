@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Nitra"
 include(":app")
- 
+include(":common")
