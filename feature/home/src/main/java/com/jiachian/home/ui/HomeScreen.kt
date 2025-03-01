@@ -1,9 +1,9 @@
 package com.jiachian.home.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.jiachian.common.ui.DSTheme
 import com.jiachian.home.R
 import com.jiachian.home.ui.intents.HomeEvent
@@ -57,7 +56,6 @@ fun HomeScreen(
         modifier = modifier,
         bottomBar = {
             HomeBottomBar(
-                modifier = Modifier.height(100.dp),
                 currentDestination = state.route,
                 onItemClick = { onEvent(HomeEvent.NavigateTo(it)) }
             )
@@ -80,10 +78,9 @@ private fun HomeBottomBar(
         routes.forEach { route ->
             NavigationBarItem(
                 selected = route.route == currentDestination,
-                enabled = route.route is HomeRoute.Cards,
                 onClick = { onItemClick(route.route) },
                 icon = {
-                    Image(
+                    Icon(
                         painter = painterResource(route.iconResId),
                         contentDescription = null,
                     )
@@ -91,9 +88,16 @@ private fun HomeBottomBar(
                 label = {
                     Text(
                         text = stringResource(route.nameResId),
-                        style = DSTheme.fonts.regular10.copy(color = DSTheme.colors.white),
+                        style = DSTheme.fonts.regular10,
                     )
                 },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = DSTheme.colors.white,
+                    selectedTextColor = DSTheme.colors.white,
+                    unselectedTextColor = DSTheme.colors.white40,
+                    unselectedIconColor = DSTheme.colors.white40,
+                    indicatorColor = DSTheme.colors.transparent,
+                )
             )
         }
     }

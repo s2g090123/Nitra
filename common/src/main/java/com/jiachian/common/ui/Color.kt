@@ -9,6 +9,7 @@ data class DSColor(
     val primary: Color,
     val background: Color,
     val white: Color,
+    val white40: Color,
     val black: Color,
     val gray0: Color,
     val gray100: Color,
@@ -20,12 +21,14 @@ data class DSColor(
     val orange400: Color,
     val green500: Color,
     val green500Overlay: Color,
+    val transparent: Color,
 )
 
 internal val DSColorDefault = DSColor(
     primary = Color(0xFF264D4F),
     background = Color(0xFF1E3C3E),
     white = Color(0xFFFFFFFF),
+    white40 = Color(0x66FFFFFF),
     black = Color(0xFF000000),
     gray0 = Color(0xFFF4F5F6),
     gray100 = Color(0xFFE3E6E8),
@@ -37,6 +40,7 @@ internal val DSColorDefault = DSColor(
     orange400 = Color(0xFFFB7429),
     green500 = Color(0xFF15B471),
     green500Overlay = Color(0x6615B471),
+    transparent = Color(0x00000000)
 )
 
 val LocalColors = staticCompositionLocalOf { DSColorDefault }
