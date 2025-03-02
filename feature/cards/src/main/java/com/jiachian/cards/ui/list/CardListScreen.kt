@@ -1,12 +1,15 @@
 package com.jiachian.cards.ui.list
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -30,8 +36,10 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.jiachian.cards.R
 import com.jiachian.cards.ui.list.model.CardListItem
 import com.jiachian.cards.ui.list.model.CardListState
@@ -75,6 +83,14 @@ internal fun CardListScreen(
                 .height(DSTheme.sizes.dp36),
             cards = state.cards,
             onItemClick = { }, // TODO - implement the callback
+        )
+        CardListContent(
+            modifier = Modifier
+                .padding(horizontal = DSTheme.sizes.dp12)
+                .fillMaxSize(),
+            loading = state.loading,
+            cards = state.cards,
+            onAddCardClick = {}, // TODO - implement the callback
         )
     }
 }
@@ -217,6 +233,66 @@ private fun CardDropdownMenu(
         }
     }
 
+}
+
+@Composable
+private fun CardListContent(
+    loading: Boolean,
+    cards: List<CardListItem>,
+    onAddCardClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier,
+    ) {
+        when {
+            loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center),
+                    color = DSTheme.colors.primary,
+                )
+            }
+
+            cards.isEmpty() -> {
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Box(
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_no_cards),
+                            contentDescription = null,
+                        )
+                        Text(
+                            modifier = Modifier.padding(top = 160.dp),
+                            text = stringResource(R.string.card_list_empty_message),
+                            style = DSTheme.fonts.sfPro14.copy(
+                                color = DSTheme.colors.black,
+                                textAlign = TextAlign.Center,
+                            )
+                        )
+                    }
+                    Button(
+                        modifier = Modifier
+                            .padding(top = DSTheme.sizes.dp20)
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(DSTheme.sizes.dp4),
+                        colors = ButtonDefaults.buttonColors(containerColor = DSTheme.colors.orange400),
+                        contentPadding = PaddingValues(DSTheme.sizes.dp14),
+                        onClick = onAddCardClick,
+                    ) {
+                        Text(
+                            text = stringResource(R.string.card_list_add_first_card),
+                            style = DSTheme.fonts.semiBold16.copy(color = DSTheme.colors.white),
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Preview
