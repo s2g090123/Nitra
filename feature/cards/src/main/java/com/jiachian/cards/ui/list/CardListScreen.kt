@@ -6,20 +6,34 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import com.jiachian.cards.R
+import com.jiachian.cards.ui.list.model.CardListItem
 import com.jiachian.cards.ui.list.model.CardListState
 import com.jiachian.common.ui.DSTheme
 import com.jiachian.common.ui.NitraTheme
@@ -30,7 +44,7 @@ internal fun CardListScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.background(DSTheme.colors.white),
     ) {
         TopBar(
             modifier = Modifier
@@ -39,6 +53,28 @@ internal fun CardListScreen(
                 .padding(horizontal = DSTheme.sizes.dp12, vertical = DSTheme.sizes.dp8),
             onHeaderClick = {},
             onTailClick = {},
+        )
+        Text(
+            modifier = Modifier
+                .padding(
+                    top = DSTheme.sizes.dp20,
+                    start = DSTheme.sizes.dp12,
+                    end = DSTheme.sizes.dp12,
+                ),
+            text = stringResource(R.string.card_list_title),
+            style = DSTheme.fonts.bold24.copy(color = DSTheme.colors.black),
+        )
+        CardDropdownMenu(
+            modifier = Modifier
+                .padding(
+                    top = DSTheme.sizes.dp20,
+                    start = DSTheme.sizes.dp12,
+                    end = DSTheme.sizes.dp12,
+                )
+                .fillMaxWidth()
+                .height(DSTheme.sizes.dp36),
+            cards = state.cards,
+            onItemClick = { }, // TODO - implement the callback
         )
     }
 }
@@ -103,6 +139,84 @@ private fun TopBar(
             )
         }
     }
+}
+
+@Composable
+private fun CardDropdownMenu(
+    cards: List<CardListItem>,
+    onItemClick: (CardListItem) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val density = LocalDensity.current
+    var expanded by remember { mutableStateOf(false) }
+    var menuWidth by remember { mutableStateOf(Dp.Unspecified) }
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(DSTheme.sizes.dp6))
+            .background(DSTheme.colors.gray100)
+            .clickable { expanded = true }
+            .onSizeChanged { with(density) { menuWidth = it.width.toDp() } },
+        contentAlignment = Alignment.Center,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = DSTheme.sizes.dp16, vertical = DSTheme.sizes.dp8),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(R.string.card_list_my_cards),
+                style = DSTheme.fonts.semiBold14.copy(color = DSTheme.colors.black),
+            )
+            Text(
+                modifier = Modifier
+                    .padding(start = DSTheme.sizes.dp8)
+                    .clip(RoundedCornerShape(DSTheme.sizes.dp16))
+                    .background(DSTheme.colors.gray200)
+                    .padding(DSTheme.sizes.dp2),
+                text = "${cards.size}",
+                style = DSTheme.fonts.medium10.copy(color = DSTheme.colors.gray600),
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                modifier = Modifier.size(DSTheme.sizes.dp16),
+                painter = painterResource(R.drawable.ic_arrow_down),
+                contentDescription = null,
+                tint = DSTheme.colors.black40,
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            cards.forEach { card ->
+                DropdownMenuItem(
+                    modifier = Modifier.width(menuWidth),
+                    text = {
+                        Row {
+                            Text(
+                                text = card.cardName,
+                                style = DSTheme.fonts.semiBold14.copy(color = DSTheme.colors.black),
+                            )
+                            Spacer(modifier = Modifier.width(DSTheme.sizes.dp8))
+                            Text(
+                                text = stringResource(
+                                    R.string.card_list_masked_card_number,
+                                    card.cardNumberTail
+                                ),
+                                style = DSTheme.fonts.semiBold14.copy(color = DSTheme.colors.black),
+                            )
+                        }
+                    },
+                    onClick = {
+                        onItemClick(card)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+
 }
 
 @Preview

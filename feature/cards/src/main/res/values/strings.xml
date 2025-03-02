@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="card_list_hamburger_title">Card</string>
+    <string name="card_list_title">Cards</string>
+    <string name="card_list_my_cards">My Cards</string>
+    <string name="card_list_masked_card_number">•••• %1$s</string>
 </resources>
