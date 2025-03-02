@@ -8,6 +8,7 @@ import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
+import javax.inject.Inject
 
 internal interface Encryptor {
     fun encrypt(text: String): String
@@ -15,7 +16,7 @@ internal interface Encryptor {
     fun decrypt(encryptedText: String): String
 }
 
-internal class AESEncryptor : Encryptor {
+internal class AESEncryptor @Inject constructor() : Encryptor {
     companion object {
         private const val ALIAS = "nitra"
         private const val ALGORITHM = KeyProperties.KEY_ALGORITHM_AES

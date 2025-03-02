@@ -1,6 +1,6 @@
 package com.jiachian.cards.domain.model
 
-data class Card(
+internal data class Card(
     val id: Int,
     val cardName: String,
     val nameOnCard: String,

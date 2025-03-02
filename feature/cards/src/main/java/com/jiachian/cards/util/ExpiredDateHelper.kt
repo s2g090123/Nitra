@@ -1,5 +1,7 @@
 package com.jiachian.cards.util
 
+import javax.inject.Inject
+
 internal interface ExpiredDateHelper {
     fun getExpiredDate(expiredYear: Int, expiredMonth: Int): Int
 
@@ -8,7 +10,7 @@ internal interface ExpiredDateHelper {
     fun getExpiredMonth(expiredDate: Int): Int
 }
 
-internal class ExpiredDateHelperImpl : ExpiredDateHelper {
+internal class ExpiredDateHelperImpl @Inject constructor() : ExpiredDateHelper {
     override fun getExpiredDate(expiredYear: Int, expiredMonth: Int): Int {
         return expiredYear * 100 + expiredMonth
     }
