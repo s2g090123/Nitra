@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetCardsUseCase @Inject constructor(
+internal class GetCardsUseCase @Inject constructor(
     private val repository: CardRepository,
     private val mapper: CardEntityMapper,
 ) : CardEntityMapper by mapper {

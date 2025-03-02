@@ -5,7 +5,7 @@ import com.jiachian.cards.data.local.model.CardEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-interface CardRepository {
+internal interface CardRepository {
     fun getCards(): Flow<List<CardEntity>>
 
     suspend fun insertCard(card: CardEntity)

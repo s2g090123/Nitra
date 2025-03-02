@@ -6,7 +6,7 @@ import com.jiachian.cards.util.Encryptor
 import com.jiachian.cards.util.ExpiredDateHelper
 import javax.inject.Inject
 
-interface CardEntityMapper {
+internal interface CardEntityMapper {
     fun CardEntity.toCard(): Card
 }
 
