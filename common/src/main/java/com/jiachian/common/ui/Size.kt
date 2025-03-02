@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.sp
 
 @Stable
 data class DSSize(
+    val dp1: Dp,
     val dp2: Dp,
     val dp4: Dp,
     val dp6: Dp,
@@ -28,6 +29,7 @@ data class DSSize(
 )
 
 internal val DSSizeDefault = DSSize(
+    dp1 = 1.dp,
     dp2 = 2.dp,
     dp4 = 4.dp,
     dp6 = 6.dp,

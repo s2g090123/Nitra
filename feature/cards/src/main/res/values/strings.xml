@@ -3,7 +3,8 @@
     <string name="card_list_hamburger_title">Card</string>
     <string name="card_list_title">Cards</string>
     <string name="card_list_my_cards">My Cards</string>
-    <string name="card_list_masked_card_number">•••• %1$s</string>
     <string name="card_list_empty_message">Add credit, debit ot store cards to make sure payments in apps.</string>
     <string name="card_list_add_first_card">Add Your First Card</string>
+    <string name="card_masked_card_number">•••• %1$s</string>
+    <string name="card_physical_card_number">Physical • %1$s</string>
 </resources>
