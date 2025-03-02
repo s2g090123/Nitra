@@ -1,5 +1,7 @@
 package com.jiachian.common.ui
 
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -31,7 +33,8 @@ fun NitraTheme(
     CompositionLocalProvider(
         LocalColors provides colors,
         LocalSizes provides sizes,
-        LocalFonts provides fonts
+        LocalFonts provides fonts,
+        LocalIndication provides rememberRipple(),
     ) {
         content()
     }
