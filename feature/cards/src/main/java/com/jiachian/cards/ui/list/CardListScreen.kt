@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -41,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jiachian.cards.R
+import com.jiachian.cards.ui.card.MaskedCreditCard
 import com.jiachian.cards.ui.list.model.CardListItem
 import com.jiachian.cards.ui.list.model.CardListState
 import com.jiachian.common.ui.DSTheme
@@ -91,6 +94,7 @@ internal fun CardListScreen(
             loading = state.loading,
             cards = state.cards,
             onAddCardClick = {}, // TODO - implement the callback
+            onCardClick = {}, // TODO - implement the callback
         )
     }
 }
@@ -217,7 +221,7 @@ private fun CardDropdownMenu(
                             Spacer(modifier = Modifier.width(DSTheme.sizes.dp8))
                             Text(
                                 text = stringResource(
-                                    R.string.card_list_masked_card_number,
+                                    R.string.card_masked_card_number,
                                     card.cardNumberTail
                                 ),
                                 style = DSTheme.fonts.semiBold14.copy(color = DSTheme.colors.black),
@@ -240,6 +244,7 @@ private fun CardListContent(
     loading: Boolean,
     cards: List<CardListItem>,
     onAddCardClick: () -> Unit,
+    onCardClick: (CardListItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -287,6 +292,25 @@ private fun CardListContent(
                         Text(
                             text = stringResource(R.string.card_list_add_first_card),
                             style = DSTheme.fonts.semiBold16.copy(color = DSTheme.colors.white),
+                        )
+                    }
+                }
+            }
+
+            else -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(top = DSTheme.sizes.dp12)
+                        .fillMaxWidth(),
+                    contentPadding = PaddingValues(bottom = DSTheme.sizes.dp12),
+                    verticalArrangement = Arrangement.spacedBy((-168).dp),
+                ) {
+                    items(cards) { card ->
+                        MaskedCreditCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            cardName = card.cardName,
+                            cardNumberTail = card.cardNumberTail,
+                            onClick = { onCardClick(card) },
                         )
                     }
                 }
