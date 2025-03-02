@@ -9,13 +9,13 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
-interface Encryptor {
+internal interface Encryptor {
     fun encrypt(text: String): String
 
     fun decrypt(encryptedText: String): String
 }
 
-class AESEncryptor : Encryptor {
+internal class AESEncryptor : Encryptor {
     companion object {
         private const val ALIAS = "nitra"
         private const val ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
