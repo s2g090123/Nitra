@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 @Stable
 data class DSColor(
     val primary: Color,
+    val primaryTeal: Color,
     val background: Color,
     val white: Color,
     val white40: Color,
@@ -26,6 +27,7 @@ data class DSColor(
 
 internal val DSColorDefault = DSColor(
     primary = Color(0xFF264D4F),
+    primaryTeal = Color(0xFF2E5E60),
     background = Color(0xFF1E3C3E),
     white = Color(0xFFFFFFFF),
     white40 = Color(0x66FFFFFF),
