@@ -1,5 +1,7 @@
 package com.jiachian.cards.ui.list
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,9 +30,11 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +53,9 @@ import com.jiachian.cards.ui.list.model.CardListItem
 import com.jiachian.cards.ui.list.model.CardListState
 import com.jiachian.common.ui.DSTheme
 import com.jiachian.common.ui.NitraTheme
+import kotlinx.coroutines.delay
+
+private const val CARDS_DISPLAY_DELAY = 300L
 
 @Composable
 internal fun CardListScreen(
@@ -298,20 +306,32 @@ private fun CardListContent(
             }
 
             else -> {
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(top = DSTheme.sizes.dp12)
-                        .fillMaxWidth(),
-                    contentPadding = PaddingValues(bottom = DSTheme.sizes.dp12),
-                    verticalArrangement = Arrangement.spacedBy((-168).dp),
-                ) {
-                    items(cards) { card ->
-                        MaskedCreditCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            cardName = card.cardName,
-                            cardNumberTail = card.cardNumberTail,
-                            onClick = { onCardClick(card) },
-                        )
+                var isShrinking by rememberSaveable { mutableStateOf(false) }
+                val emptyHeightFraction by animateFloatAsState(
+                    targetValue = if (isShrinking) 0f else 1f,
+                    animationSpec = tween(durationMillis = 1000)
+                )
+                LaunchedEffect(Unit) {
+                    delay(CARDS_DISPLAY_DELAY)
+                    isShrinking = true
+                }
+                Column {
+                    Box(modifier = Modifier.fillMaxHeight(emptyHeightFraction))
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(top = DSTheme.sizes.dp12)
+                            .fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = DSTheme.sizes.dp12),
+                        verticalArrangement = Arrangement.spacedBy((-168).dp),
+                    ) {
+                        items(cards) { card ->
+                            MaskedCreditCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                cardName = card.cardName,
+                                cardNumberTail = card.cardNumberTail,
+                                onClick = { onCardClick(card) },
+                            )
+                        }
                     }
                 }
             }
