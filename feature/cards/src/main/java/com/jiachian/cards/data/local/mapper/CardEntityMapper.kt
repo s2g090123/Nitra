@@ -8,6 +8,8 @@ import javax.inject.Inject
 
 internal interface CardEntityMapper {
     fun CardEntity.toCard(): Card
+
+    fun Card.toCardEntity(): CardEntity
 }
 
 internal class CardEntityMapperImpl @Inject constructor(
@@ -23,6 +25,17 @@ internal class CardEntityMapperImpl @Inject constructor(
             expYear = expiredDateHelper.getExpiredYear(this.expDate),
             expMonth = expiredDateHelper.getExpiredMonth(this.expDate),
             cvv = encryptor.decrypt(this.cvvEncrypted),
+        )
+    }
+
+    override fun Card.toCardEntity(): CardEntity {
+        return CardEntity(
+            id = this.id,
+            cardName = this.cardName,
+            nameOnCard = this.nameOnCard,
+            cardNumberEncrypted = encryptor.encrypt(this.cardNumber),
+            expDate = expiredDateHelper.getExpiredDate(this.expYear, this.expMonth),
+            cvvEncrypted = encryptor.encrypt(this.cvv),
         )
     }
 }

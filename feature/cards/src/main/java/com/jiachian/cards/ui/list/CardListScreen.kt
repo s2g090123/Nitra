@@ -60,7 +60,8 @@ private const val CARDS_DISPLAY_DELAY = 300L
 @Composable
 internal fun CardListScreen(
     state: CardListState,
-    modifier: Modifier = Modifier
+    onAddCardClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.background(DSTheme.colors.white),
@@ -101,7 +102,7 @@ internal fun CardListScreen(
                 .fillMaxSize(),
             loading = state.loading,
             cards = state.cards,
-            onAddCardClick = {}, // TODO - implement the callback
+            onAddCardClick = onAddCardClick,
             onCardClick = {}, // TODO - implement the callback
         )
     }
@@ -306,32 +307,57 @@ private fun CardListContent(
             }
 
             else -> {
-                var isShrinking by rememberSaveable { mutableStateOf(false) }
-                val emptyHeightFraction by animateFloatAsState(
-                    targetValue = if (isShrinking) 0f else 1f,
-                    animationSpec = tween(durationMillis = 1000)
-                )
-                LaunchedEffect(Unit) {
-                    delay(CARDS_DISPLAY_DELAY)
-                    isShrinking = true
-                }
-                Column {
-                    Box(modifier = Modifier.fillMaxHeight(emptyHeightFraction))
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(top = DSTheme.sizes.dp12)
-                            .fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = DSTheme.sizes.dp12),
-                        verticalArrangement = Arrangement.spacedBy((-168).dp),
-                    ) {
-                        items(cards) { card ->
-                            MaskedCreditCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                cardName = card.cardName,
-                                cardNumberTail = card.cardNumberTail,
-                                onClick = { onCardClick(card) },
-                            )
+                Box {
+                    Column {
+                        var isShrinking by rememberSaveable { mutableStateOf(false) }
+                        val emptyHeightFraction by animateFloatAsState(
+                            targetValue = if (isShrinking) 0f else 1f,
+                            animationSpec = tween(durationMillis = 1000)
+                        )
+                        LaunchedEffect(Unit) {
+                            delay(CARDS_DISPLAY_DELAY)
+                            isShrinking = true
                         }
+                        Box(modifier = Modifier.fillMaxHeight(emptyHeightFraction))
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(top = DSTheme.sizes.dp12)
+                                .fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = DSTheme.sizes.dp12),
+                            verticalArrangement = Arrangement.spacedBy((-168).dp),
+                        ) {
+                            items(cards) { card ->
+                                MaskedCreditCard(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    cardName = card.cardName,
+                                    cardNumberTail = card.cardNumberTail,
+                                    onClick = { onCardClick(card) },
+                                )
+                            }
+                        }
+                    }
+                    Button(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(bottom = DSTheme.sizes.dp56),
+                        shape = RoundedCornerShape(DSTheme.sizes.dp6),
+                        colors = ButtonDefaults.buttonColors(containerColor = DSTheme.colors.orange400),
+                        contentPadding = PaddingValues(
+                            horizontal = DSTheme.sizes.dp16,
+                            vertical = DSTheme.sizes.dp10
+                        ),
+                        onClick = onAddCardClick,
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_credit_card),
+                            contentDescription = null,
+                            tint = DSTheme.colors.white,
+                        )
+                        Spacer(modifier = Modifier.width(DSTheme.sizes.dp8))
+                        Text(
+                            text = stringResource(R.string.card_form_add_card),
+                            style = DSTheme.fonts.semiBold16.copy(color = DSTheme.colors.white),
+                        )
                     }
                 }
             }
@@ -345,6 +371,7 @@ fun CardListScreenPreview() {
     NitraTheme {
         CardListScreen(
             state = CardListState(),
+            onAddCardClick = {},
         )
     }
 }

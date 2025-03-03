@@ -1,6 +1,8 @@
 package com.jiachian.cards.di
 
 import com.jiachian.cards.util.AESEncryptor
+import com.jiachian.cards.util.CardValidator
+import com.jiachian.cards.util.CardValidatorImpl
 import com.jiachian.cards.util.Encryptor
 import com.jiachian.cards.util.ExpiredDateHelper
 import com.jiachian.cards.util.ExpiredDateHelperImpl
@@ -19,4 +21,7 @@ internal abstract class UtilModule {
 
     @Binds
     abstract fun bindExpiredDateHelper(impl: ExpiredDateHelperImpl): ExpiredDateHelper
+
+    @Binds
+    abstract fun bindCardValidator(impl: CardValidatorImpl): CardValidator
 }

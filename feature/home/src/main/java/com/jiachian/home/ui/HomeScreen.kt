@@ -24,8 +24,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -34,7 +32,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jiachian.cards.ui.CardsScreen
-import com.jiachian.cards.ui.CardsViewModel
 import com.jiachian.common.ui.DSTheme
 import com.jiachian.home.R
 import com.jiachian.home.ui.routes.HomeRoute
@@ -128,11 +125,8 @@ fun HomeScreen(
             startDestination = startDestination,
         ) {
             composable<HomeRoute.Cards> {
-                val viewModel = hiltViewModel<CardsViewModel>()
-                val cardsState by viewModel.state.collectAsStateWithLifecycle()
                 CardsScreen(
-                    modifier = Modifier.fillMaxSize(),
-                    state = cardsState,
+                    modifier = Modifier.fillMaxSize()
                 )
             }
             composable<HomeRoute.Transactions> { }
