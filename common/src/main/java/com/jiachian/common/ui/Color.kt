@@ -24,6 +24,7 @@ data class DSColor(
     val orange400: Color,
     val green500: Color,
     val green500Overlay: Color,
+    val red: Color,
     val transparent: Color,
 )
 
@@ -46,6 +47,7 @@ internal val DSColorDefault = DSColor(
     orange400 = Color(0xFFFB7429),
     green500 = Color(0xFF15B471),
     green500Overlay = Color(0x6615B471),
+    red = Color(0xFFFF0000),
     transparent = Color(0x00000000)
 )
 
