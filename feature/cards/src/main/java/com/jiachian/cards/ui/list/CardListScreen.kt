@@ -1,6 +1,7 @@
 package com.jiachian.cards.ui.list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -49,6 +51,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.jiachian.cards.R
 import com.jiachian.cards.ui.card.MaskedCreditCard
@@ -60,6 +63,7 @@ import com.jiachian.common.ui.NitraTheme
 import kotlinx.coroutines.delay
 
 private const val CARDS_DISPLAY_DELAY = 300L
+private const val FLOATING_BUTTON_DURATION = 1000
 
 @Composable
 internal fun CardListScreen(
@@ -362,10 +366,20 @@ private fun CardListContent(
                             }
                         }
                     }
+
+                    var animated by rememberSaveable { mutableStateOf(false) }
+                    val offsetY by animateDpAsState(
+                        if (animated) 0.dp else 112.dp,
+                        animationSpec = tween(FLOATING_BUTTON_DURATION)
+                    )
+                    LaunchedEffect(Unit) {
+                        animated = true
+                    }
                     Button(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
-                            .padding(bottom = DSTheme.sizes.dp56),
+                            .padding(bottom = DSTheme.sizes.dp56)
+                            .offset { IntOffset(0, offsetY.roundToPx()) },
                         shape = RoundedCornerShape(DSTheme.sizes.dp6),
                         colors = ButtonDefaults.buttonColors(containerColor = DSTheme.colors.orange400),
                         contentPadding = PaddingValues(
