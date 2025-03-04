@@ -327,7 +327,7 @@ internal class CardDetailViewModel @Inject constructor(
             cardName = state.value.cardName,
             nameOnCard = state.value.nameOnCard,
             cardNumber = state.value.cardNumber,
-            expYear = state.value.expDate.takeLast(2),
+            expYear = expYearHead + state.value.expDate.takeLast(2),
             expMonth = state.value.expDate.take(2),
             cvv = state.value.cvv,
         )
