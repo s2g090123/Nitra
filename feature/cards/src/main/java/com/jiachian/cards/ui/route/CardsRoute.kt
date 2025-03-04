@@ -8,4 +8,7 @@ internal sealed interface CardsRoute {
 
     @Serializable
     data object Form : CardsRoute
+
+    @Serializable
+    data class Detail(val id: Int) : CardsRoute
 }
