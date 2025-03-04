@@ -14,6 +14,6 @@ data class CardEntity(
     @ColumnInfo("card_name") val cardName: String,
     @ColumnInfo("name_on_card") val nameOnCard: String,
     @ColumnInfo("card_number") val cardNumberEncrypted: String,
-    @ColumnInfo("exp_date") val expDate: Int,
+    @ColumnInfo("exp_date") val expDate: String,
     @ColumnInfo("cvv") val cvvEncrypted: String,
 )

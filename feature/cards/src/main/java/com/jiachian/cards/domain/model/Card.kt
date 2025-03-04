@@ -5,7 +5,7 @@ internal data class Card(
     val cardName: String,
     val nameOnCard: String,
     val cardNumber: String,
-    val expYear: Int,
-    val expMonth: Int,
+    val expYear: String,
+    val expMonth: String,
     val cvv: String,
 )

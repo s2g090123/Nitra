@@ -135,14 +135,14 @@ internal fun CardFormBasicField(
 @Composable
 internal fun CardFormDateField(
     title: String,
-    valueForYear: Int,
-    valueForMonth: Int,
+    valueForYear: String,
+    valueForMonth: String,
     hintForYear: String,
     hintForMonth: String,
     errorForYear: Boolean,
     errorForMonth: Boolean,
-    onValueChangeForYear: (Int) -> Unit,
-    onValueChangeForMonth: (Int) -> Unit,
+    onValueChangeForYear: (String) -> Unit,
+    onValueChangeForMonth: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val calendar = remember { Calendar.getInstance() }
@@ -161,7 +161,7 @@ internal fun CardFormDateField(
         ) {
             ExpDateDropdownMenu(
                 modifier = Modifier.weight(1f),
-                items = (1..12).toList(),
+                items = List(12) { i -> "%02d".format(i + 1) },
                 value = valueForMonth,
                 hint = hintForMonth,
                 error = errorForMonth,
@@ -169,7 +169,7 @@ internal fun CardFormDateField(
             )
             ExpDateDropdownMenu(
                 modifier = Modifier.weight(1f),
-                items = (currentYear + 3..currentYear + 10).toList(),
+                items = List(8) { i -> (currentYear + 3 + i).toString() },
                 value = valueForYear,
                 hint = hintForYear,
                 error = errorForYear,
@@ -181,11 +181,11 @@ internal fun CardFormDateField(
 
 @Composable
 private fun ExpDateDropdownMenu(
-    items: List<Int>,
-    value: Int,
+    items: List<String>,
+    value: String,
     hint: String,
     error: Boolean,
-    onItemClick: (Int) -> Unit,
+    onItemClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
@@ -213,7 +213,7 @@ private fun ExpDateDropdownMenu(
                 .padding(horizontal = DSTheme.sizes.dp16, vertical = DSTheme.sizes.dp14),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (value == 0) {
+            if (value.isEmpty()) {
                 Text(
                     text = hint,
                     style = DSTheme.fonts.regular16.copy(color = DSTheme.colors.gray400),
@@ -275,8 +275,8 @@ private fun CardFormDateFieldPreview() {
     NitraTheme {
         CardFormDateField(
             title = "Exp Date",
-            valueForYear = 0,
-            valueForMonth = 0,
+            valueForYear = "",
+            valueForMonth = "",
             hintForYear = "Year",
             hintForMonth = "Month",
             errorForYear = false,
