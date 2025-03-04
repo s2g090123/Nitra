@@ -23,3 +23,4 @@ rootProject.name = "Nitra"
 include(":app")
 include(":common")
 include(":feature:home")
+include(":feature:cards")
