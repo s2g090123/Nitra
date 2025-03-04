@@ -48,12 +48,14 @@ internal class CardValidatorImpl @Inject constructor() : CardValidator {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = calendar.get(Calendar.MONTH)
-        if (card.expYear.toInt() < currentYear + 3) {
+        val expYear = card.expYear.toIntOrNull() ?: -1
+        val expMonth = card.expMonth.toIntOrNull() ?: -1
+        if (expYear < currentYear + 3) {
             result.expYearValid = false
         }
         if (
-            card.expMonth.toInt() !in 1..12 ||
-            (card.expYear.toInt() == currentYear && card.expMonth.toInt() < currentMonth)
+            expMonth !in 1..12 ||
+            (expYear == currentYear && expMonth < currentMonth)
         ) {
             result.expMonthValid = false
         }
