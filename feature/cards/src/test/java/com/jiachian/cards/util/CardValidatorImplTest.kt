@@ -16,8 +16,8 @@ class CardValidatorImplTest {
             cardName = "",
             nameOnCard = "nameOnCard",
             cardNumber = "1111222233334444",
-            expYear = Calendar.getInstance().get(Calendar.YEAR) + 3,
-            expMonth = 12,
+            expYear = (Calendar.getInstance().get(Calendar.YEAR) + 3).toString(),
+            expMonth = "12",
             cvv = "123",
         )
         assertFalse(validator.validateCard(card).cardNameValid)
@@ -30,8 +30,8 @@ class CardValidatorImplTest {
             cardName = "cardName",
             nameOnCard = "",
             cardNumber = "1111222233334444",
-            expYear = Calendar.getInstance().get(Calendar.YEAR) + 3,
-            expMonth = 12,
+            expYear = (Calendar.getInstance().get(Calendar.YEAR) + 3).toString(),
+            expMonth = "12",
             cvv = "123",
         )
         assertFalse(validator.validateCard(card).nameOnCardValid)
@@ -44,8 +44,8 @@ class CardValidatorImplTest {
             cardName = "",
             nameOnCard = "nameOnCard",
             cardNumber = "1111",
-            expYear = Calendar.getInstance().get(Calendar.YEAR) + 3,
-            expMonth = 12,
+            expYear = (Calendar.getInstance().get(Calendar.YEAR) + 3).toString(),
+            expMonth = "12",
             cvv = "123",
         )
         assertFalse(validator.validateCard(card).cardNumberValid)
@@ -58,8 +58,8 @@ class CardValidatorImplTest {
             cardName = "",
             nameOnCard = "nameOnCard",
             cardNumber = "1111222233334444",
-            expYear = Calendar.getInstance().get(Calendar.YEAR),
-            expMonth = 12,
+            expYear = (Calendar.getInstance().get(Calendar.YEAR)).toString(),
+            expMonth = "12",
             cvv = "123",
         )
         assertFalse(validator.validateCard(card).expYearValid)
@@ -72,8 +72,8 @@ class CardValidatorImplTest {
             cardName = "",
             nameOnCard = "nameOnCard",
             cardNumber = "1111222233334444",
-            expYear = Calendar.getInstance().get(Calendar.YEAR) + 3,
-            expMonth = 13,
+            expYear = (Calendar.getInstance().get(Calendar.YEAR) + 3).toString(),
+            expMonth = "13",
             cvv = "123",
         )
         assertFalse(validator.validateCard(card).expMonthValid)
@@ -86,8 +86,8 @@ class CardValidatorImplTest {
             cardName = "",
             nameOnCard = "nameOnCard",
             cardNumber = "1111222233334444",
-            expYear = Calendar.getInstance().get(Calendar.YEAR) + 3,
-            expMonth = 12,
+            expYear = (Calendar.getInstance().get(Calendar.YEAR) + 3).toString(),
+            expMonth = "12",
             cvv = "1234",
         )
         assertFalse(validator.validateCard(card).cvvValid)
@@ -100,8 +100,8 @@ class CardValidatorImplTest {
             cardName = "cardName",
             nameOnCard = "nameOnCard",
             cardNumber = "1111222233334444",
-            expYear = Calendar.getInstance().get(Calendar.YEAR) + 3,
-            expMonth = 12,
+            expYear = (Calendar.getInstance().get(Calendar.YEAR) + 3).toString(),
+            expMonth = "12",
             cvv = "123",
         )
         assertTrue(validator.validateCard(card).isValid)
