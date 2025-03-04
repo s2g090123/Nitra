@@ -12,6 +12,7 @@ data class DSFont(
     val regular16: TextStyle,
     val medium10: TextStyle,
     val medium14: TextStyle,
+    val sfPro12: TextStyle,
     val sfPro14: TextStyle,
     val sfPro18: TextStyle,
     val semiBold14: TextStyle,
@@ -42,6 +43,10 @@ internal val DSFontDefault = DSFont(
     medium14 = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = DSSizeDefault.sp14,
+    ),
+    sfPro12 = TextStyle(
+        fontWeight = FontWeight(510),
+        fontSize = DSSizeDefault.sp12,
     ),
     sfPro14 = TextStyle(
         fontWeight = FontWeight(510),

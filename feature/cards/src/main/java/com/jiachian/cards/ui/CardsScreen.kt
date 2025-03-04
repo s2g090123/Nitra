@@ -11,6 +11,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jiachian.cards.ui.detail.CardDetailScreen
+import com.jiachian.cards.ui.detail.CardDetailViewModel
 import com.jiachian.cards.ui.form.CardFormScreen
 import com.jiachian.cards.ui.form.CardFormViewModel
 import com.jiachian.cards.ui.list.CardListScreen
@@ -36,7 +38,8 @@ fun CardsScreen(
             CardListScreen(
                 modifier = Modifier.fillMaxSize(),
                 state = listState,
-                onAddCardClick = { navController.navigate(CardsRoute.Form) }
+                onAddCardClick = { navController.navigate(CardsRoute.Form) },
+                goToDetail = { navController.navigate(CardsRoute.Detail(it)) }
             )
         }
         composable<CardsRoute.Form>(
@@ -59,6 +62,19 @@ fun CardsScreen(
                         restoreState = true
                     }
                 }
+            )
+        }
+        composable<CardsRoute.Detail>(
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) },
+        ) {
+            val viewModel = hiltViewModel<CardDetailViewModel>()
+            val detailState by viewModel.state.collectAsStateWithLifecycle()
+            CardDetailScreen(
+                modifier = Modifier.fillMaxSize(),
+                state = detailState,
+                onEvent = viewModel::onEvent,
+                onBackClick = { navController.popBackStack() }
             )
         }
     }

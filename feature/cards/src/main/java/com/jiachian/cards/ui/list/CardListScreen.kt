@@ -61,6 +61,7 @@ private const val CARDS_DISPLAY_DELAY = 300L
 internal fun CardListScreen(
     state: CardListState,
     onAddCardClick: () -> Unit,
+    goToDetail: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -94,7 +95,7 @@ internal fun CardListScreen(
                 .fillMaxWidth()
                 .height(DSTheme.sizes.dp36),
             cards = state.cards,
-            onItemClick = { }, // TODO - implement the callback
+            onItemClick = { goToDetail(it.id) },
         )
         CardListContent(
             modifier = Modifier
@@ -103,7 +104,7 @@ internal fun CardListScreen(
             loading = state.loading,
             cards = state.cards,
             onAddCardClick = onAddCardClick,
-            onCardClick = {}, // TODO - implement the callback
+            onCardClick = { goToDetail(it.id) },
         )
     }
 }
@@ -309,6 +310,8 @@ private fun CardListContent(
             else -> {
                 Box {
                     Column {
+                        val density = LocalDensity.current
+                        var itemHeight by remember { mutableStateOf(0.dp) }
                         var isShrinking by rememberSaveable { mutableStateOf(false) }
                         val emptyHeightFraction by animateFloatAsState(
                             targetValue = if (isShrinking) 0f else 1f,
@@ -324,11 +327,15 @@ private fun CardListContent(
                                 .padding(top = DSTheme.sizes.dp12)
                                 .fillMaxSize(),
                             contentPadding = PaddingValues(bottom = DSTheme.sizes.dp12),
-                            verticalArrangement = Arrangement.spacedBy((-168).dp),
+                            verticalArrangement = Arrangement.spacedBy(-itemHeight + DSTheme.sizes.dp56),
                         ) {
                             items(cards) { card ->
                                 MaskedCreditCard(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .onSizeChanged {
+                                            itemHeight = with(density) { it.height.toDp() }
+                                        },
                                     cardName = card.cardName,
                                     cardNumberTail = card.cardNumberTail,
                                     onClick = { onCardClick(card) },
@@ -372,6 +379,7 @@ fun CardListScreenPreview() {
         CardListScreen(
             state = CardListState(),
             onAddCardClick = {},
+            goToDetail = {},
         )
     }
 }

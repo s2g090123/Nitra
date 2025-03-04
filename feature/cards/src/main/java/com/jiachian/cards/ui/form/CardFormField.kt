@@ -220,7 +220,7 @@ private fun ExpDateDropdownMenu(
                 )
             } else {
                 Text(
-                    text = value.toString(),
+                    text = value,
                     style = DSTheme.fonts.regular16.copy(color = DSTheme.colors.black),
                 )
             }
@@ -240,7 +240,7 @@ private fun ExpDateDropdownMenu(
                     modifier = Modifier.width(menuWidth),
                     text = {
                         Text(
-                            text = option.toString(),
+                            text = option,
                             style = DSTheme.fonts.regular16.copy(color = DSTheme.colors.black),
                         )
                     },

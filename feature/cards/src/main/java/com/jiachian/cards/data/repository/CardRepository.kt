@@ -8,6 +8,8 @@ import javax.inject.Inject
 internal interface CardRepository {
     fun getCards(): Flow<List<CardEntity>>
 
+    suspend fun getCard(cardId: Int): CardEntity
+
     suspend fun insertCard(card: CardEntity)
 
     suspend fun updateCard(card: CardEntity)
@@ -20,6 +22,10 @@ internal class CardRepositoryImpl @Inject constructor(
         return dao.getCards()
     }
 
+    override suspend fun getCard(cardId: Int): CardEntity {
+        return dao.getCard(cardId)
+    }
+
     override suspend fun insertCard(card: CardEntity) {
         dao.insertCard(card)
     }
@@ -27,5 +33,4 @@ internal class CardRepositoryImpl @Inject constructor(
     override suspend fun updateCard(card: CardEntity) {
         dao.updateCard(card)
     }
-
 }
