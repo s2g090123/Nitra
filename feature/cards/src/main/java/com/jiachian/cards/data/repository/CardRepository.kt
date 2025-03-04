@@ -13,6 +13,8 @@ internal interface CardRepository {
     suspend fun insertCard(card: CardEntity)
 
     suspend fun updateCard(card: CardEntity)
+
+    suspend fun deleteCard(cardId: Int)
 }
 
 internal class CardRepositoryImpl @Inject constructor(
@@ -32,5 +34,9 @@ internal class CardRepositoryImpl @Inject constructor(
 
     override suspend fun updateCard(card: CardEntity) {
         dao.updateCard(card)
+    }
+
+    override suspend fun deleteCard(cardId: Int) {
+        dao.deleteCard(cardId)
     }
 }

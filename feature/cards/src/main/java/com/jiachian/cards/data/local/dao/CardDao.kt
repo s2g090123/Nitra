@@ -21,4 +21,7 @@ interface CardDao {
 
     @Update
     suspend fun updateCard(card: CardEntity)
+
+    @Query("DELETE FROM table_card WHERE id=:id")
+    suspend fun deleteCard(id: Int)
 }

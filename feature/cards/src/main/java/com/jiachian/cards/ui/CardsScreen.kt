@@ -38,6 +38,7 @@ fun CardsScreen(
             CardListScreen(
                 modifier = Modifier.fillMaxSize(),
                 state = listState,
+                onEvent = viewModel::onEvent,
                 onAddCardClick = { navController.navigate(CardsRoute.Form) },
                 goToDetail = { navController.navigate(CardsRoute.Detail(it)) }
             )

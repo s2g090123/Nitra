@@ -1,7 +1,10 @@
 package com.jiachian.cards.ui.list
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -49,6 +52,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jiachian.cards.R
 import com.jiachian.cards.ui.card.MaskedCreditCard
+import com.jiachian.cards.ui.list.event.CardListEvent
 import com.jiachian.cards.ui.list.model.CardListItem
 import com.jiachian.cards.ui.list.model.CardListState
 import com.jiachian.common.ui.DSTheme
@@ -60,6 +64,7 @@ private const val CARDS_DISPLAY_DELAY = 300L
 @Composable
 internal fun CardListScreen(
     state: CardListState,
+    onEvent: (CardListEvent) -> Unit,
     onAddCardClick: () -> Unit,
     goToDetail: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -105,6 +110,7 @@ internal fun CardListScreen(
             cards = state.cards,
             onAddCardClick = onAddCardClick,
             onCardClick = { goToDetail(it.id) },
+            onCardDelete = { onEvent(CardListEvent.DeleteCard(it.id)) }
         )
     }
 }
@@ -255,6 +261,7 @@ private fun CardListContent(
     cards: List<CardListItem>,
     onAddCardClick: () -> Unit,
     onCardClick: (CardListItem) -> Unit,
+    onCardDelete: (CardListItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -270,39 +277,49 @@ private fun CardListContent(
             }
 
             cards.isEmpty() -> {
-                Column(
+                var visible by remember { mutableStateOf(false) }
+                LaunchedEffect(Unit) {
+                    visible = true
+                }
+                AnimatedVisibility(
                     modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    visible = visible,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
                 ) {
-                    Box(
-                        contentAlignment = Alignment.TopCenter
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Image(
-                            painter = painterResource(R.drawable.ic_no_cards),
-                            contentDescription = null,
-                        )
-                        Text(
-                            modifier = Modifier.padding(top = 160.dp),
-                            text = stringResource(R.string.card_list_empty_message),
-                            style = DSTheme.fonts.sfPro14.copy(
-                                color = DSTheme.colors.black,
-                                textAlign = TextAlign.Center,
+                        Box(
+                            contentAlignment = Alignment.TopCenter
+                        ) {
+                            Image(
+                                painter = painterResource(R.drawable.ic_no_cards),
+                                contentDescription = null,
                             )
-                        )
-                    }
-                    Button(
-                        modifier = Modifier
-                            .padding(top = DSTheme.sizes.dp20)
-                            .fillMaxWidth(),
-                        shape = RoundedCornerShape(DSTheme.sizes.dp4),
-                        colors = ButtonDefaults.buttonColors(containerColor = DSTheme.colors.orange400),
-                        contentPadding = PaddingValues(DSTheme.sizes.dp14),
-                        onClick = onAddCardClick,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.card_list_add_first_card),
-                            style = DSTheme.fonts.semiBold16.copy(color = DSTheme.colors.white),
-                        )
+                            Text(
+                                modifier = Modifier.padding(top = 160.dp),
+                                text = stringResource(R.string.card_list_empty_message),
+                                style = DSTheme.fonts.sfPro14.copy(
+                                    color = DSTheme.colors.black,
+                                    textAlign = TextAlign.Center,
+                                )
+                            )
+                        }
+                        Button(
+                            modifier = Modifier
+                                .padding(top = DSTheme.sizes.dp20)
+                                .fillMaxWidth(),
+                            shape = RoundedCornerShape(DSTheme.sizes.dp4),
+                            colors = ButtonDefaults.buttonColors(containerColor = DSTheme.colors.orange400),
+                            contentPadding = PaddingValues(DSTheme.sizes.dp14),
+                            onClick = onAddCardClick,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.card_list_add_first_card),
+                                style = DSTheme.fonts.semiBold16.copy(color = DSTheme.colors.white),
+                            )
+                        }
                     }
                 }
             }
@@ -310,8 +327,6 @@ private fun CardListContent(
             else -> {
                 Box {
                     Column {
-                        val density = LocalDensity.current
-                        var itemHeight by remember { mutableStateOf(0.dp) }
                         var isShrinking by rememberSaveable { mutableStateOf(false) }
                         val emptyHeightFraction by animateFloatAsState(
                             targetValue = if (isShrinking) 0f else 1f,
@@ -327,19 +342,23 @@ private fun CardListContent(
                                 .padding(top = DSTheme.sizes.dp12)
                                 .fillMaxSize(),
                             contentPadding = PaddingValues(bottom = DSTheme.sizes.dp12),
-                            verticalArrangement = Arrangement.spacedBy(-itemHeight + DSTheme.sizes.dp56),
+                            verticalArrangement = Arrangement.spacedBy((-180).dp),
                         ) {
-                            items(cards) { card ->
-                                MaskedCreditCard(
+                            items(cards, key = { it.id }) { card ->
+                                SwipeToDeleteContainer(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .onSizeChanged {
-                                            itemHeight = with(density) { it.height.toDp() }
-                                        },
-                                    cardName = card.cardName,
-                                    cardNumberTail = card.cardNumberTail,
-                                    onClick = { onCardClick(card) },
-                                )
+                                        .animateItem()
+                                        .fillMaxWidth(),
+                                    item = card,
+                                    onDelete = onCardDelete,
+                                ) {
+                                    MaskedCreditCard(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        cardName = card.cardName,
+                                        cardNumberTail = card.cardNumberTail,
+                                        onClick = { onCardClick(card) },
+                                    )
+                                }
                             }
                         }
                     }
@@ -380,6 +399,7 @@ fun CardListScreenPreview() {
             state = CardListState(),
             onAddCardClick = {},
             goToDetail = {},
+            onEvent = {},
         )
     }
 }
