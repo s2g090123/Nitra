@@ -37,7 +37,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.jiachian.cards.R
 import com.jiachian.cards.ui.detail.transformation.ExpDateTransformation
 import com.jiachian.cards.ui.form.transformation.CardNumberTransformation
@@ -159,7 +158,7 @@ internal fun DetailedCreditCard(
                         tint = DSTheme.colors.white,
                     )
                 }
-                Box(
+                Row(
                     modifier = Modifier.padding(top = DSTheme.sizes.dp20)
                 ) {
                     Column {
@@ -190,7 +189,7 @@ internal fun DetailedCreditCard(
                         }
                     }
                     Column(
-                        modifier = Modifier.padding(start = 127.dp),
+                        modifier = Modifier.padding(start = DSTheme.sizes.dp56),
                     ) {
                         Text(
                             text = stringResource(R.string.card_cvv),
