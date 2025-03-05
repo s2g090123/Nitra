@@ -1,14 +1,13 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "com.jiachian.home"
+    namespace = "com.jiachian.more"
     compileSdk = 35
 
     defaultConfig {
@@ -44,8 +43,7 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    implementation(project(":feature:cards"))
-    implementation(project(":feature:more"))
+    implementation(project(":feature:lock"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -53,16 +51,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    debugImplementation(libs.ui.tooling)
 
-    implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
-
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.androidx.activity.compose)
 }

@@ -50,7 +50,10 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":feature:home"))
     implementation(project(":feature:cards"))
+    implementation(project(":feature:more"))
+    implementation(project(":feature:lock"))
 
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
