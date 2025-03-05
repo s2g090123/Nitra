@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="checkbox_app_lock">App Lock</string>
+    <string name="verify_identity_title">Verify Your Identity</string>
+    <string name="verify_identity_description">Please use fingerprint, face recognition, or device password to continue.</string>
+</resources>

@@ -1,6 +1,5 @@
 package com.jiachian.common.ui
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
@@ -13,7 +12,9 @@ data class DSFont(
     val regular16: TextStyle,
     val medium10: TextStyle,
     val medium14: TextStyle,
+    val sfPro12: TextStyle,
     val sfPro14: TextStyle,
+    val sfPro18: TextStyle,
     val semiBold14: TextStyle,
     val semiBold15: TextStyle,
     val semiBold16: TextStyle,
@@ -43,9 +44,17 @@ internal val DSFontDefault = DSFont(
         fontWeight = FontWeight.Medium,
         fontSize = DSSizeDefault.sp14,
     ),
+    sfPro12 = TextStyle(
+        fontWeight = FontWeight(510),
+        fontSize = DSSizeDefault.sp12,
+    ),
     sfPro14 = TextStyle(
         fontWeight = FontWeight(510),
         fontSize = DSSizeDefault.sp14,
+    ),
+    sfPro18 = TextStyle(
+        fontWeight = FontWeight(510),
+        fontSize = DSSizeDefault.sp18,
     ),
     semiBold14 = TextStyle(
         fontWeight = FontWeight.SemiBold,
