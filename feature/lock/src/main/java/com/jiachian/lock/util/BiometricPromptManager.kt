@@ -8,31 +8,30 @@ import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.PromptInfo
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
+import javax.inject.Inject
 
-interface BiometricPromptManager {
-    val promptResults: Flow<BiometricResult>
-
-    fun showBiometricPrompt(title: String, description: String)
-
-    sealed interface BiometricResult {
-        data object HardwareUnavailable : BiometricResult
-        data object FeatureUnavailable : BiometricResult
-        data class AuthenticationError(val error: String) : BiometricResult
-        data object AuthenticationFailed : BiometricResult
-        data object AuthenticationSuccess : BiometricResult
-        data object AuthenticationNotSet : BiometricResult
-    }
-}
-
-internal class BiometricPromptManagerImpl(
+class BiometricPromptManager @Inject constructor(
     private val activity: AppCompatActivity
-) : BiometricPromptManager {
-    private val resultChannel = Channel<BiometricPromptManager.BiometricResult>()
-    override val promptResults = resultChannel.receiveAsFlow()
+) {
+    private val resultChannel = Channel<BiometricResult>()
+    val promptResults = resultChannel.receiveAsFlow()
 
-    override fun showBiometricPrompt(
+    fun canBiometricPrompt(): Boolean {
+        val manager = BiometricManager.from(activity)
+        val authenticators = if (Build.VERSION.SDK_INT >= 30) {
+            BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+        } else BIOMETRIC_STRONG
+        return when (manager.canAuthenticate(authenticators)) {
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE,
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE,
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> false
+
+            else -> true
+        }
+    }
+
+    fun showBiometricPrompt(
         title: String,
         description: String
     ) {
@@ -52,17 +51,17 @@ internal class BiometricPromptManagerImpl(
 
         when (manager.canAuthenticate(authenticators)) {
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                resultChannel.trySend(BiometricPromptManager.BiometricResult.HardwareUnavailable)
+                resultChannel.trySend(BiometricResult.HardwareUnavailable)
                 return
             }
 
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                resultChannel.trySend(BiometricPromptManager.BiometricResult.FeatureUnavailable)
+                resultChannel.trySend(BiometricResult.FeatureUnavailable)
                 return
             }
 
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                resultChannel.trySend(BiometricPromptManager.BiometricResult.AuthenticationNotSet)
+                resultChannel.trySend(BiometricResult.AuthenticationNotSet)
                 return
             }
 
@@ -75,7 +74,7 @@ internal class BiometricPromptManagerImpl(
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
                     resultChannel.trySend(
-                        BiometricPromptManager.BiometricResult.AuthenticationError(
+                        BiometricResult.AuthenticationError(
                             errString.toString()
                         )
                     )
@@ -83,15 +82,24 @@ internal class BiometricPromptManagerImpl(
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    resultChannel.trySend(BiometricPromptManager.BiometricResult.AuthenticationSuccess)
+                    resultChannel.trySend(BiometricResult.AuthenticationSuccess)
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    resultChannel.trySend(BiometricPromptManager.BiometricResult.AuthenticationFailed)
+                    resultChannel.trySend(BiometricResult.AuthenticationFailed)
                 }
             }
         )
         prompt.authenticate(promptInfo.build())
+    }
+
+    sealed interface BiometricResult {
+        data object HardwareUnavailable : BiometricResult
+        data object FeatureUnavailable : BiometricResult
+        data class AuthenticationError(val error: String) : BiometricResult
+        data object AuthenticationFailed : BiometricResult
+        data object AuthenticationSuccess : BiometricResult
+        data object AuthenticationNotSet : BiometricResult
     }
 }

@@ -24,6 +24,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -36,6 +38,8 @@ import com.jiachian.common.ui.DSTheme
 import com.jiachian.home.R
 import com.jiachian.home.ui.routes.HomeRoute
 import com.jiachian.home.ui.routes.TopLevelRoute
+import com.jiachian.more.ui.MoreScreen
+import com.jiachian.more.ui.MoreViewModel
 
 private val routes = listOf(
     TopLevelRoute(
@@ -132,7 +136,15 @@ fun HomeScreen(
             composable<HomeRoute.Transactions> { }
             composable<HomeRoute.Payments> { }
             composable<HomeRoute.Statements> { }
-            composable<HomeRoute.More> { }
+            composable<HomeRoute.More> {
+                val viewModel = hiltViewModel<MoreViewModel>()
+                val state by viewModel.state.collectAsStateWithLifecycle()
+                MoreScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    state = state,
+                    onEvent = viewModel::onEvent,
+                )
+            }
         }
     }
 }
