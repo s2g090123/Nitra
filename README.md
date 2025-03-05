@@ -1,3 +1,5 @@
+[![Run Unit Testing](https://github.com/s2g090123/Nitra/actions/workflows/run_unit_tests.yml/badge.svg)](https://github.com/s2g090123/Nitra/actions/workflows/run_unit_tests.yml)
+
 # Nitra
 
 ## Introduction
