@@ -7,13 +7,9 @@ import androidx.compose.ui.graphics.Color
 @Stable
 data class DSColor(
     val primary: Color,
-    val primaryTeal: Color,
     val background: Color,
     val white: Color,
-    val white40: Color,
-    val white70: Color,
     val black: Color,
-    val black40: Color,
     val gray0: Color,
     val gray100: Color,
     val gray200: Color,
@@ -24,19 +20,13 @@ data class DSColor(
     val orange400: Color,
     val green500: Color,
     val green500Overlay: Color,
-    val red: Color,
-    val transparent: Color,
 )
 
 internal val DSColorDefault = DSColor(
     primary = Color(0xFF264D4F),
-    primaryTeal = Color(0xFF2E5E60),
     background = Color(0xFF1E3C3E),
     white = Color(0xFFFFFFFF),
-    white40 = Color(0x66FFFFFF),
-    white70 = Color(0xB3FFFFFF),
     black = Color(0xFF000000),
-    black40 = Color(0x66000000),
     gray0 = Color(0xFFF4F5F6),
     gray100 = Color(0xFFE3E6E8),
     gray200 = Color(0xFFD5DADC),
@@ -47,8 +37,6 @@ internal val DSColorDefault = DSColor(
     orange400 = Color(0xFFFB7429),
     green500 = Color(0xFF15B471),
     green500Overlay = Color(0x6615B471),
-    red = Color(0xFFFF0000),
-    transparent = Color(0x00000000)
 )
 
 val LocalColors = staticCompositionLocalOf { DSColorDefault }

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="route_transactions">Transactions</string>
-    <string name="route_cards">Cards</string>
-    <string name="route_payments">Payments</string>
-    <string name="route_statements">Statements</string>
-    <string name="route_more">More</string>
-</resources>

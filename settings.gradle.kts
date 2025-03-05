@@ -22,7 +22,3 @@ dependencyResolutionManagement {
 rootProject.name = "Nitra"
 include(":app")
 include(":common")
-include(":feature:home")
-include(":feature:cards")
-include(":feature:lock")
-include(":feature:more")
