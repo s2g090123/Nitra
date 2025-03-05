@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="card_list_hamburger_title">Card</string>
+    <string name="card_list_title">Cards</string>
+    <string name="card_list_my_cards">My Cards</string>
+    <string name="card_list_empty_message">Add credit, debit ot store cards to make sure payments in apps.</string>
+    <string name="card_list_add_first_card">Add Your First Card</string>
+    <string name="card_masked_card_number">•••• %1$s</string>
+    <string name="card_physical_card_number">Physical • %1$s</string>
+    <string name="card_card_number">Card Number</string>
+    <string name="card_exp_date">Exp Date</string>
+    <string name="card_cvv">CVV</string>
+    <string name="card_form_title">New Card</string>
+    <string name="card_form_option_card_name">Card Name*</string>
+    <string name="card_form_option_card_name_hint">Wei’s Card</string>
+    <string name="card_form_option_name_on_card">Name on Card*</string>
+    <string name="card_form_option_name_on_card_hint">Wei Chen</string>
+    <string name="card_form_option_card_number">Card Number*</string>
+    <string name="card_form_option_card_number_hint">0000 0000 0000 0000</string>
+    <string name="card_form_option_exp_date">Exp Date*</string>
+    <string name="card_form_option_exp_date_year_hint">Year</string>
+    <string name="card_form_option_exp_date_month_hint">Month</string>
+    <string name="card_form_option_cvv">Card Security Code*</string>
+    <string name="card_form_option_cvv_hint">Code</string>
+    <string name="card_form_add_card">Add Card</string>
+    <string name="card_detail_title">Card Details</string>
+    <string name="card_detail_name_on_card">Name on Card</string>
+    <string name="copied_to_clipboard">"Copied to clipboard"</string>
+</resources>
