@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -38,6 +39,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.jiachian.cards.R
+import com.jiachian.cards.TestTag
 import com.jiachian.cards.ui.detail.transformation.ExpDateTransformation
 import com.jiachian.cards.ui.form.transformation.CardNumberTransformation
 import com.jiachian.common.ui.DSTheme
@@ -125,7 +127,9 @@ internal fun DetailedCreditCard(
         ) {
             Column {
                 CreditCardTop(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .testTag(TestTag.DetailedCreditCard_CardName)
+                        .fillMaxWidth(),
                     editable = editable && (focused == -1 || focused == 0),
                     cardName = cardName,
                     cardNumberTail = cardNumber.takeLast(4),
@@ -138,7 +142,9 @@ internal fun DetailedCreditCard(
                     style = DSTheme.fonts.sfPro12.copy(color = DSTheme.colors.white),
                 )
                 Row(
-                    modifier = Modifier.padding(top = DSTheme.sizes.dp8),
+                    modifier = Modifier
+                        .testTag(TestTag.DetailedCreditCard_CardNumber)
+                        .padding(top = DSTheme.sizes.dp8),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     CardTextField(
@@ -167,7 +173,9 @@ internal fun DetailedCreditCard(
                             style = DSTheme.fonts.sfPro12.copy(color = DSTheme.colors.white),
                         )
                         Row(
-                            modifier = Modifier.padding(top = DSTheme.sizes.dp8),
+                            modifier = Modifier
+                                .testTag(TestTag.DetailedCreditCard_ExpDate)
+                                .padding(top = DSTheme.sizes.dp8),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             CardTextField(
@@ -196,7 +204,9 @@ internal fun DetailedCreditCard(
                             style = DSTheme.fonts.sfPro12.copy(color = DSTheme.colors.white),
                         )
                         Row(
-                            modifier = Modifier.padding(top = DSTheme.sizes.dp8),
+                            modifier = Modifier
+                                .testTag(TestTag.DetailedCreditCard_CVV)
+                                .padding(top = DSTheme.sizes.dp8),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             CardTextField(
@@ -258,6 +268,7 @@ private fun CreditCardTop(
                 onFocusChanged = onFocusChanged,
             )
             Text(
+                modifier = Modifier.testTag(TestTag.CreditCardTop_CardNumberTail),
                 text = stringResource(R.string.card_physical_card_number, cardNumberTail),
                 style = DSTheme.fonts.regular10.copy(color = DSTheme.colors.white70),
                 overflow = TextOverflow.Ellipsis,
@@ -288,6 +299,7 @@ internal fun CardTextField(
     Box(modifier = modifier) {
         Row {
             Text(
+                modifier = Modifier.testTag(TestTag.CardTextField_Text),
                 text = value,
                 style = textStyle.copy(color = if (isFocused) DSTheme.colors.transparent else textStyle.color),
                 maxLines = 1,
