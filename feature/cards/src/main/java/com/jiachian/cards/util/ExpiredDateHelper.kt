@@ -3,24 +3,21 @@ package com.jiachian.cards.util
 import javax.inject.Inject
 
 internal interface ExpiredDateHelper {
-    fun getExpiredDate(expiredYear: String, expiredMonth: String): String
+    fun yearToString(year: Int): String
 
-    fun getExpiredYear(expiredDate: String): String
+    fun yearToInt(year: String): Int
 
-    fun getExpiredMonth(expiredDate: String): String
+    fun monthToString(month: Int): String
+
+    fun monthToInt(month: String): Int
 }
 
 internal class ExpiredDateHelperImpl @Inject constructor() : ExpiredDateHelper {
-    override fun getExpiredDate(expiredYear: String, expiredMonth: String): String {
-        return "$expiredYear$expiredMonth"
-    }
+    override fun yearToString(year: Int): String = year.toString()
 
-    override fun getExpiredYear(expiredDate: String): String {
-        return expiredDate.dropLast(2)
-    }
+    override fun yearToInt(year: String): Int = year.toInt()
 
-    override fun getExpiredMonth(expiredDate: String): String {
-        return expiredDate.takeLast(2)
-    }
+    override fun monthToString(month: Int): String = "%02d".format(month)
 
+    override fun monthToInt(month: String): Int = month.toInt()
 }

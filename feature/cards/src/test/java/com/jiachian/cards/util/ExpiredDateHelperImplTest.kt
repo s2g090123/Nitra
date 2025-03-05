@@ -7,21 +7,22 @@ class ExpiredDateHelperImplTest {
     private val helper = ExpiredDateHelperImpl()
 
     @Test
-    fun `validate expiredDate`() {
-        val year = "2030"
-        val month = "12"
-        assertEquals("203012", helper.getExpiredDate(year, month))
+    fun `validate yearToString`() {
+        assertEquals("2030", helper.yearToString(2030))
     }
 
     @Test
-    fun `validate expiredYear`() {
-        val expiredDate = "203012"
-        assertEquals("2030", helper.getExpiredYear(expiredDate))
+    fun `validate yearToInt`() {
+        assertEquals(2030, helper.yearToInt("2030"))
     }
 
     @Test
-    fun `validate expiredMonth`() {
-        val expiredDate = "203012"
-        assertEquals("12", helper.getExpiredMonth(expiredDate))
+    fun `validate monthToString`() {
+        assertEquals("01", helper.monthToString(1))
+    }
+
+    @Test
+    fun `validate monthToInt`() {
+        assertEquals(1, helper.monthToInt("01"))
     }
 }

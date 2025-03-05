@@ -22,8 +22,8 @@ internal class CardEntityMapperImpl @Inject constructor(
             cardName = this.cardName,
             nameOnCard = this.nameOnCard,
             cardNumber = encryptor.decrypt(this.cardNumberEncrypted),
-            expYear = expiredDateHelper.getExpiredYear(this.expDate),
-            expMonth = expiredDateHelper.getExpiredMonth(this.expDate),
+            expYear = expiredDateHelper.yearToString(this.expYear),
+            expMonth = expiredDateHelper.monthToString(this.expMonth),
             cvv = encryptor.decrypt(this.cvvEncrypted),
         )
     }
@@ -34,7 +34,8 @@ internal class CardEntityMapperImpl @Inject constructor(
             cardName = this.cardName,
             nameOnCard = this.nameOnCard,
             cardNumberEncrypted = encryptor.encrypt(this.cardNumber),
-            expDate = expiredDateHelper.getExpiredDate(this.expYear, this.expMonth),
+            expYear = expiredDateHelper.yearToInt(this.expYear),
+            expMonth = expiredDateHelper.monthToInt(this.expMonth),
             cvvEncrypted = encryptor.encrypt(this.cvv),
         )
     }
