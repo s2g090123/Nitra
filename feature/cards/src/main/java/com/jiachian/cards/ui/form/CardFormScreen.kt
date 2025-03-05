@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.jiachian.cards.R
+import com.jiachian.cards.TestTag
 import com.jiachian.cards.ui.form.event.CardFormAction
 import com.jiachian.cards.ui.form.event.CardFormEvent
 import com.jiachian.cards.ui.form.model.CardFormState
@@ -71,6 +73,7 @@ internal fun CardFormScreen(
         }
         CardFormBasicField(
             modifier = Modifier
+                .testTag(TestTag.Form_TextField_CardName)
                 .padding(top = DSTheme.sizes.dp32)
                 .fillMaxWidth(),
             title = stringResource(R.string.card_form_option_card_name),
@@ -85,6 +88,7 @@ internal fun CardFormScreen(
         )
         CardFormBasicField(
             modifier = Modifier
+                .testTag(TestTag.Form_TextField_NameOnCard)
                 .padding(top = DSTheme.sizes.dp4)
                 .fillMaxWidth(),
             title = stringResource(R.string.card_form_option_name_on_card),
@@ -99,6 +103,7 @@ internal fun CardFormScreen(
         )
         CardFormBasicField(
             modifier = Modifier
+                .testTag(TestTag.Form_TextField_CardNumber)
                 .padding(top = DSTheme.sizes.dp4)
                 .fillMaxWidth(),
             title = stringResource(R.string.card_form_option_card_number),
@@ -115,6 +120,7 @@ internal fun CardFormScreen(
         )
         CardFormDateField(
             modifier = Modifier
+                .testTag(TestTag.Form_TextField_ExpDate)
                 .padding(top = DSTheme.sizes.dp4)
                 .fillMaxWidth(),
             title = stringResource(R.string.card_form_option_exp_date),
@@ -129,6 +135,7 @@ internal fun CardFormScreen(
         )
         CardFormBasicField(
             modifier = Modifier
+                .testTag(TestTag.Form_TextField_CVV)
                 .padding(top = DSTheme.sizes.dp4)
                 .fillMaxWidth(),
             title = stringResource(R.string.card_form_option_cvv),
@@ -144,6 +151,7 @@ internal fun CardFormScreen(
         )
         Button(
             modifier = Modifier
+                .testTag(TestTag.Form_Button_AddCard)
                 .padding(top = DSTheme.sizes.dp32)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(DSTheme.sizes.dp4),

@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -54,6 +55,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.jiachian.cards.R
+import com.jiachian.cards.TestTag
 import com.jiachian.cards.ui.card.MaskedCreditCard
 import com.jiachian.cards.ui.list.event.CardListEvent
 import com.jiachian.cards.ui.list.model.CardListItem
@@ -312,6 +314,7 @@ private fun CardListContent(
                         }
                         Button(
                             modifier = Modifier
+                                .testTag(TestTag.List_Button_AddCard)
                                 .padding(top = DSTheme.sizes.dp20)
                                 .fillMaxWidth(),
                             shape = RoundedCornerShape(DSTheme.sizes.dp4),
@@ -357,7 +360,9 @@ private fun CardListContent(
                                     onDelete = onCardDelete,
                                 ) {
                                     MaskedCreditCard(
-                                        modifier = Modifier.fillMaxWidth(),
+                                        modifier = Modifier
+                                            .testTag(TestTag.MaskedCreditCard)
+                                            .fillMaxWidth(),
                                         cardName = card.cardName,
                                         cardNumberTail = card.cardNumberTail,
                                         onClick = { onCardClick(card) },

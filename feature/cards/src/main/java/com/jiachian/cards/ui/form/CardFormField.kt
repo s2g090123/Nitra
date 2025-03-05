@@ -34,6 +34,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,6 +42,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.jiachian.cards.R
+import com.jiachian.cards.TestTag
 import com.jiachian.common.ui.DSTheme
 import com.jiachian.common.ui.NitraTheme
 import java.util.Calendar
@@ -72,6 +74,7 @@ internal fun CardFormBasicField(
         Spacer(modifier = Modifier.height(DSTheme.sizes.dp8))
         OutlinedTextField(
             modifier = Modifier
+                .testTag(TestTag.CardFormBasicField_TextField)
                 .fillMaxWidth()
                 .onFocusChanged { focusState ->
                     if (!focusState.isFocused && isFocused) {
@@ -160,7 +163,9 @@ internal fun CardFormDateField(
             horizontalArrangement = Arrangement.spacedBy(DSTheme.sizes.dp8)
         ) {
             ExpDateDropdownMenu(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .testTag(TestTag.Form_Dropdown_ExpMonth)
+                    .weight(1f),
                 items = List(12) { i -> "%02d".format(i + 1) },
                 value = valueForMonth,
                 hint = hintForMonth,
@@ -168,7 +173,9 @@ internal fun CardFormDateField(
                 onItemClick = onValueChangeForMonth,
             )
             ExpDateDropdownMenu(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .testTag(TestTag.Form_Dropdown_ExpYear)
+                    .weight(1f),
                 items = List(8) { i -> (currentYear + 3 + i).toString() },
                 value = valueForYear,
                 hint = hintForYear,
@@ -237,7 +244,9 @@ private fun ExpDateDropdownMenu(
         ) {
             items.forEach { option ->
                 DropdownMenuItem(
-                    modifier = Modifier.width(menuWidth),
+                    modifier = Modifier
+                        .testTag(TestTag.ExpDateDropdownMenu_MenuItem)
+                        .width(menuWidth),
                     text = {
                         Text(
                             text = option,

@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":feature:cards"))
     implementation(project(":feature:more"))
     implementation(project(":feature:lock"))
+    androidTestImplementation(project(":test:cards"))
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

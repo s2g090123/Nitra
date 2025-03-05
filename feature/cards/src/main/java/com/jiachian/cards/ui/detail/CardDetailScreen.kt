@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.jiachian.cards.R
+import com.jiachian.cards.TestTag
 import com.jiachian.cards.ui.card.CardTextField
 import com.jiachian.cards.ui.card.DetailedCreditCard
 import com.jiachian.cards.ui.detail.event.CardDetailAction
@@ -110,6 +112,7 @@ internal fun CardDetailScreen(
             BoxWithConstraints {
                 val maxWidth = maxWidth
                 Row(
+                    modifier = Modifier.testTag(TestTag.Detail_TextField_NameOnCard),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     CardTextField(
