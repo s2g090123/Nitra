@@ -49,13 +49,9 @@ The project follows **Clean Architecture**, structured into three layers: **UI, 
 - **Data Layer**: Manages data access, including database.
 
 ### Dependency Injection
-The project uses **Hilt** for dependency injection, ensuring:
-- Easier dependency management and injection
-- Improved testability by enabling dependency mocking
-- Reduced boilerplate code and better scalability
-
+The project uses **Hilt** for dependency injection.
 To further improve flexibility and testability, this project follows **Interface-driven Design**:
-- **All classes depend on interfaces instead of concrete implementations**, improving modularity.
+- **All classes depend on interfaces instead of concrete implementations**.
 - **Dependency Injection dynamically injects implementations**, making it easier to swap implementations for different environments (e.g., real database vs. memory database for testing).
 
 ## Testing
