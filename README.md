@@ -54,6 +54,39 @@ To further improve flexibility and testability, this project follows **Interface
 - **All classes depend on interfaces instead of concrete implementations**.
 - **Dependency Injection dynamically injects implementations**, making it easier to swap implementations for different environments (e.g., real database vs. memory database for testing).
 
+### Design System
+The project includes a **Design System** to maintain consistency in UI design. It supports:
+- **Colors**
+- **Sizes**
+- **Fonts**
+
+#### Usage
+To access design tokens:
+```kotlin
+// access the color
+LocalColors.current.XXX
+DSTheme.colors.XXX
+
+// access the size
+LocalSizes.current.XXX
+DSTheme.sizes.XXX
+
+// access the font
+LocalFonts.current.XXX
+DSTheme.fonts.XXX
+```
+
+For overriding values, use `CompositionLocalProvider`:
+```kotlin
+CompositionLocalProvider(
+  LocalColors provides customColors,
+  LocalSizes provides customSizes,
+  LocalFonts provides customFonts,
+) {
+    // Your UI components
+}
+```
+
 ## Testing
 The project includes **unit tests** and **UI tests** to ensure stability and correctness.
 
